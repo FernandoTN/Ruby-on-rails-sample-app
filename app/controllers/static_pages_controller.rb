@@ -4,7 +4,4 @@ class StaticPagesController < ApplicationController
 
   def help
   end
-
-  def __no_test_framework
-  end
 end
