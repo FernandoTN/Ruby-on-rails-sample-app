@@ -10,4 +10,7 @@ class StaticPagesController < ApplicationController
 
   def Fer
   end
+
+  def contact
+  end
 end
