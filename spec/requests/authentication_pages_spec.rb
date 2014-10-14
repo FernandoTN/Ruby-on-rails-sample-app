@@ -76,6 +76,19 @@ describe "Authentication" do
               expect(page).to have_title(user.name)
             end
           end
+          
+          describe "in the Microposts controller" do
+
+            describe "submitting to the create action" do
+              before { post microposts_path }
+              specify { expect(response).to redirect_to(signin_path) }
+            end
+
+            describe "submitting to the destroy action" do
+              before { delete micropost_path(FactoryGirl.create(:micropost)) }
+              specify { expect(response).to redirect_to(signin_path) }
+            end
+          end
         end
       end
 
@@ -155,6 +168,12 @@ describe "Authentication" do
      describe "as signed-in user " do
       let(:user) { FactoryGirl.create(:user) }
       before { sign_in user, no_capybara:true }
+
+        describe  "cannot delete other users' posts" do
+          let(:other_user) { FactoryGirl.create(:user) }
+          before { visit user_path(other_user) }
+          it { should_not have_link('delete') }
+        end
 
         describe "cannot access #new action" do
           before { get new_user_path }
